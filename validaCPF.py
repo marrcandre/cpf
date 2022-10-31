@@ -24,6 +24,7 @@ Etapa 2: 3x6 + 4x4 + 5x1 + 6x6 + 7x3 + 8x1 + 9x8 + 10x9 + 11x3 = 299
 
 Etapa 3: DV1x10 + DV2 = 6x10 + 8 = 68, que é o número procurado.
 """
+from random import randint
 
 
 def dv1_bruto(cpf):
@@ -35,13 +36,15 @@ def dv1_bruto(cpf):
 def dv1(cpf):
     """Calcula o DV1 do CPF"""
 
-    resultado = dv1_bruto(cpf) * 10 % 11 
+    resultado = dv1_bruto(cpf) * 10 % 11
     return resultado if resultado < 10 else 0
+
 
 def dv2_bruto(cpf):
     """Calcula o DV2 do CPF"""
 
     return sum(((i + 3) * int(d) for i, d in enumerate(cpf[::-1])))
+
 
 def dv2(cpf):
     """Calcula o DV2 do CPF"""
@@ -49,8 +52,53 @@ def dv2(cpf):
     resultado = (dv2_bruto(cpf) + dv1(cpf) * 2) * 10 % 11
     return resultado if resultado < 10 else 0
 
-def dv(cpf):
+
+def dv_calculado(cpf):
     """Calcula o DV final do CPF"""
 
     return str(dv1(cpf)) + str(dv2(cpf))
+
+
+def tira_mascara_cpf(cpf):
+    """Remove a máscara, deixando apenas os algarismos"""
+    return "".join([c for c in cpf if c.isdigit()])
+
+
+def dv_original(cpf):
+    """Pega os dois últimos dígitos do CPF"""
+    return cpf[-2:]
+
+
+def cpf_sem_dv(cpf):
+    """Retorna o CPF sem os dois últimos dígitos"""
+    return cpf[:-2]
+
+
+def valida_tamanho_cpf(cpf):
+    """Valida o tamanho do CPF"""
+
+    cpf = tira_mascara_cpf(cpf)
+    return len(cpf) == 11
+
+
+def valida_cpf(cpf):
+    """Valida o CPF"""
+
+    cpf = tira_mascara_cpf(cpf)
+    return dv_original(cpf) == dv_calculado(cpf_sem_dv(cpf)) and valida_tamanho_cpf(cpf)
+
+
+def gera_cpf(formatado=False):
+    """Gera um CPF válido"""
+
+    cpf = "".join([str(randint(0, 9)) for i in range(9)])
+    cpf += dv_calculado(cpf)
+    return cpf if not formatado else f"{cpf[:3]}.{cpf[3:6]}.{cpf[6:9]}-{cpf[9:]}"
+
+
+def gera_lista_cpfs(qtd, formatado=False):
+    """Gera uma lista de CPFs válidos"""
+
+    return [gera_cpf(formatado) for i in range(qtd)]
+
 
