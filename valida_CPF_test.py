@@ -1,17 +1,18 @@
 """Testes para cálculo do digito verificador do CPF"""
-from validaCPF import (
-    dv1_bruto,
-    dv1,
-    dv2_bruto,
-    dv2,
-    dv_calculado,
-    tira_mascara_cpf,
-    dv_original,
+from valida_CPF import (
+    coloca_mascara_cpf,
     cpf_sem_dv,
-    valida_tamanho_cpf,
-    valida_cpf,
+    cpf_valido,
+    dv1,
+    dv1_bruto,
+    dv2,
+    dv2_bruto,
+    dv_calculado,
+    dv_original,
     gera_cpf,
     gera_lista_cpfs,
+    tira_mascara_cpf,
+    valida_tamanho_cpf,
 )
 
 
@@ -106,27 +107,32 @@ def test_valida_tamanho_cpf_com_cpf_invalido():
 
 def test_valida_cpf_com_cpf_valido():
     """Se o CPF for válido, deve retornar True"""
-    assert valida_cpf("12345678909") == True
-    assert valida_cpf("39813614668") == True
-    assert valida_cpf("93682786953") == True
+    assert cpf_valido("12345678909") == True
+    assert cpf_valido("39813614668") == True
+    assert cpf_valido("93682786953") == True
 
 
 def test_valida_cpf_com_cpf_invalido():
     """Se o CPF for inválido, deve retornar False"""
-    assert valida_cpf("12345678900") == False
-    assert valida_cpf("39813614600") == False
-    assert valida_cpf("93682786900") == False
+    assert cpf_valido("12345678900") == False
+    assert cpf_valido("39813614600") == False
+    assert cpf_valido("93682786900") == False
 
 
 def test_gera_cpf():
     """Gera um CPF válido"""
-    assert valida_cpf(gera_cpf()) == True
+    assert cpf_valido(gera_cpf()) == True
 
 
 def test_gera_cpf_com_formato_testa_tamanho():
     """Gera um CPF válido com formato e testa o tamanho"""
     assert len(gera_cpf(formatado=True)) == 14
     assert len(gera_cpf(formatado=False)) == 11
+
+
+def test_gera_lista_cpfs_valor_padrao():
+    """Gera uma lista de CPFs com o valor padrão de 10"""
+    assert len(gera_lista_cpfs()) == 10
 
 
 def test_gera_lista_cpf_testa_tamanho_lista():
@@ -140,7 +146,7 @@ def test_gera_lista_cpf_testa_tamanho_lista():
 def test_gera_lista_cpf_testa_validade():
     """Gera uma lista de CPFs válidos e testa a validade"""
     for cpf in gera_lista_cpfs(100):
-        assert valida_cpf(cpf) == True
+        assert cpf_valido(cpf) == True
 
 
 def test_gera_lista_cpf_com_formato_testa_tamanho():
@@ -149,3 +155,19 @@ def test_gera_lista_cpf_com_formato_testa_tamanho():
         assert len(cpf) == 14
     for cpf in gera_lista_cpfs(100, formatado=False):
         assert len(cpf) == 11
+
+
+def test_coloca_mascara_cpf_sem_mascara():
+    """Coloca a máscara no CPF"""
+    assert coloca_mascara_cpf("12345678909") == "123.456.789-09"
+    assert coloca_mascara_cpf("39813614668") == "398.136.146-68"
+    assert coloca_mascara_cpf("93682786953") == "936.827.869-53"
+
+
+def test_coloca_mascara_cpf_com_mascara():
+    """Coloca a máscara no CPF"""
+    assert coloca_mascara_cpf("123.456.789-09") == "123.456.789-09"
+    assert coloca_mascara_cpf("398.136.146-68") == "398.136.146-68"
+    assert coloca_mascara_cpf("936.827.869-53") == "936.827.869-53"
+    assert coloca_mascara_cpf("123-456-789-09") == "123.456.789-09"
+    assert coloca_mascara_cpf("398-136-146-68") == "398.136.146-68"

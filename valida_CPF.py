@@ -81,7 +81,7 @@ def valida_tamanho_cpf(cpf):
     return len(cpf) == 11
 
 
-def valida_cpf(cpf):
+def cpf_valido(cpf):
     """Valida o CPF"""
 
     cpf = tira_mascara_cpf(cpf)
@@ -93,12 +93,15 @@ def gera_cpf(formatado=False):
 
     cpf = "".join([str(randint(0, 9)) for i in range(9)])
     cpf += dv_calculado(cpf)
-    return cpf if not formatado else f"{cpf[:3]}.{cpf[3:6]}.{cpf[6:9]}-{cpf[9:]}"
+    return cpf if not formatado else coloca_mascara_cpf(cpf)
 
-
-def gera_lista_cpfs(qtd, formatado=False):
+def gera_lista_cpfs(qtd=10, formatado=False):
     """Gera uma lista de CPFs válidos"""
 
     return [gera_cpf(formatado) for i in range(qtd)]
 
 
+def coloca_mascara_cpf(cpf):
+    """Coloca a máscara no CPF"""
+    cpf = tira_mascara_cpf(cpf)
+    return f"{cpf[:3]}.{cpf[3:6]}.{cpf[6:9]}-{cpf[9:]}"
