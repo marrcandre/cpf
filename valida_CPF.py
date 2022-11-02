@@ -27,73 +27,76 @@ Etapa 3: DV1x10 + DV2 = 6x10 + 8 = 68, que é o número procurado.
 from random import randint
 
 
-def dv1_bruto(cpf):
+def _dv1_bruto(cpf):
     """Calcula o DV1 do CPF"""
 
     return sum(((i + 2) * int(d) for i, d in enumerate(cpf[::-1])))
 
 
-def dv1(cpf):
+def _dv1(cpf):
     """Calcula o DV1 do CPF"""
 
-    resultado = dv1_bruto(cpf) * 10 % 11
+    resultado = _dv1_bruto(cpf) * 10 % 11
     return resultado if resultado < 10 else 0
 
 
-def dv2_bruto(cpf):
+def _dv2_bruto(cpf):
     """Calcula o DV2 do CPF"""
 
     return sum(((i + 3) * int(d) for i, d in enumerate(cpf[::-1])))
 
 
-def dv2(cpf):
+def _dv2(cpf):
     """Calcula o DV2 do CPF"""
 
-    resultado = (dv2_bruto(cpf) + dv1(cpf) * 2) * 10 % 11
+    resultado = (_dv2_bruto(cpf) + _dv1(cpf) * 2) * 10 % 11
     return resultado if resultado < 10 else 0
 
 
-def dv_calculado(cpf):
+def _dv_calculado(cpf):
     """Calcula o DV final do CPF"""
 
-    return str(dv1(cpf)) + str(dv2(cpf))
+    return str(_dv1(cpf)) + str(_dv2(cpf))
 
 
-def tira_mascara_cpf(cpf):
+def _tira_mascara_cpf(cpf):
     """Remove a máscara, deixando apenas os algarismos"""
     return "".join([c for c in cpf if c.isdigit()])
 
 
-def dv_original(cpf):
+def _dv_original(cpf):
     """Pega os dois últimos dígitos do CPF"""
     return cpf[-2:]
 
 
-def cpf_sem_dv(cpf):
+def _tira_dv(cpf):
     """Retorna o CPF sem os dois últimos dígitos"""
     return cpf[:-2]
 
 
-def valida_tamanho_cpf(cpf):
+def _valida_tamanho_cpf(cpf):
     """Valida o tamanho do CPF"""
 
-    cpf = tira_mascara_cpf(cpf)
+    cpf = _tira_mascara_cpf(cpf)
     return len(cpf) == 11
 
 
 def cpf_valido(cpf):
     """Valida o CPF"""
 
-    cpf = tira_mascara_cpf(cpf)
-    return dv_original(cpf) == dv_calculado(cpf_sem_dv(cpf)) and valida_tamanho_cpf(cpf)
+    cpf = _tira_mascara_cpf(cpf)
+    return _dv_original(cpf) == _dv_calculado(_tira_dv(cpf)) and _valida_tamanho_cpf(
+        cpf
+    )
 
 
 def gera_cpf(formatado=False):
     """Gera um CPF válido"""
 
     cpf = "".join([str(randint(0, 9)) for i in range(9)])
-    cpf += dv_calculado(cpf)
+    cpf += _dv_calculado(cpf)
     return cpf if not formatado else coloca_mascara_cpf(cpf)
+
 
 def gera_lista_cpfs(qtd=10, formatado=False):
     """Gera uma lista de CPFs válidos"""
@@ -103,5 +106,5 @@ def gera_lista_cpfs(qtd=10, formatado=False):
 
 def coloca_mascara_cpf(cpf):
     """Coloca a máscara no CPF"""
-    cpf = tira_mascara_cpf(cpf)
+    cpf = _tira_mascara_cpf(cpf)
     return f"{cpf[:3]}.{cpf[3:6]}.{cpf[6:9]}-{cpf[9:]}"

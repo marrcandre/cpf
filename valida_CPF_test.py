@@ -1,108 +1,108 @@
 """Testes para cálculo do digito verificador do CPF"""
 from valida_CPF import (
     coloca_mascara_cpf,
-    cpf_sem_dv,
+    _tira_dv,
     cpf_valido,
-    dv1,
-    dv1_bruto,
-    dv2,
-    dv2_bruto,
-    dv_calculado,
-    dv_original,
+    _dv1,
+    _dv1_bruto,
+    _dv2,
+    _dv2_bruto,
+    _dv_calculado,
+    _dv_original,
     gera_cpf,
     gera_lista_cpfs,
-    tira_mascara_cpf,
-    valida_tamanho_cpf,
+    _tira_mascara_cpf,
+    _valida_tamanho_cpf,
 )
 
 
 def test_dv1_bruto():
     """Obtem o resultado da soma dos produtos de cada dígito por um peso de 2 a 10, na ordem inversa (do nono para o primeiro)."""
-    assert dv1_bruto("398136146") == 258
-    assert dv1_bruto("123456789") == 210
+    assert _dv1_bruto("398136146") == 258
+    assert _dv1_bruto("123456789") == 210
 
 
 def test_dv1():
     """Calcula o DV1 do CPF"""
-    assert dv1("398136146") == 6
-    assert dv1("123456789") == 0
+    assert _dv1("398136146") == 6
+    assert _dv1("123456789") == 0
 
 
 def test_dv2_bruto():
     """Obtem o resultado da soma dos produtos de cada dígito por um peso de 3 a 11, também na ordem inversa."""
-    assert dv2_bruto("398136146") == 299
-    assert dv2_bruto("123456789") == 255
+    assert _dv2_bruto("398136146") == 299
+    assert _dv2_bruto("123456789") == 255
 
 
 def test_dv2():
     """Calcula o DV2 do CPF"""
-    assert dv2("398136146") == 8
-    assert dv2("123456789") == 9
+    assert _dv2("398136146") == 8
+    assert _dv2("123456789") == 9
 
 
 def test_dv():
     """Calcula o DV final do CPF"""
-    assert dv_calculado("398136146") == "68"
-    assert dv_calculado("123456789") == "09"
+    assert _dv_calculado("398136146") == "68"
+    assert _dv_calculado("123456789") == "09"
 
 
 def test_tira_mascara_cpf_mascara_ok():
     """Se a máscara estiver correta, deve remover a máscara e deixar apenas os algarismos"""
-    assert tira_mascara_cpf("123.456.789-09") == "12345678909"
-    assert tira_mascara_cpf("398.136.146-68") == "39813614668"
-    assert tira_mascara_cpf("936.827.869-53") == "93682786953"
+    assert _tira_mascara_cpf("123.456.789-09") == "12345678909"
+    assert _tira_mascara_cpf("398.136.146-68") == "39813614668"
+    assert _tira_mascara_cpf("936.827.869-53") == "93682786953"
 
 
 def test_tira_mascara_cpf_sem_mascara():
     """Se estiver sem máscara, deve retornar o próprio CPF"""
-    assert tira_mascara_cpf("12345678909") == "12345678909"
-    assert tira_mascara_cpf("39813614668") == "39813614668"
-    assert tira_mascara_cpf("93682786953") == "93682786953"
+    assert _tira_mascara_cpf("12345678909") == "12345678909"
+    assert _tira_mascara_cpf("39813614668") == "39813614668"
+    assert _tira_mascara_cpf("93682786953") == "93682786953"
 
 
 def test_tira_mascara_cpf_mascara_errada():
     """Se a máscara estiver errada, deve retornar apenas os algarismos"""
-    assert tira_mascara_cpf("123456789-09") == "12345678909"
-    assert tira_mascara_cpf("123-456-789-09") == "12345678909"
-    assert tira_mascara_cpf("123456789.09") == "12345678909"
+    assert _tira_mascara_cpf("123456789-09") == "12345678909"
+    assert _tira_mascara_cpf("123-456-789-09") == "12345678909"
+    assert _tira_mascara_cpf("123456789.09") == "12345678909"
 
 
 def test_pega_dv():
     """Pega o DV do CPF"""
-    assert dv_original("12345678909") == "09"
-    assert dv_original("39813614668") == "68"
-    assert dv_original("93682786953") == "53"
+    assert _dv_original("12345678909") == "09"
+    assert _dv_original("39813614668") == "68"
+    assert _dv_original("93682786953") == "53"
 
 
 def test_cpf_sem_dv():
     """Retorna o CPF sem o DV"""
-    assert cpf_sem_dv("12345678909") == "123456789"
-    assert cpf_sem_dv("39813614668") == "398136146"
-    assert cpf_sem_dv("93682786953") == "936827869"
+    assert _tira_dv("12345678909") == "123456789"
+    assert _tira_dv("39813614668") == "398136146"
+    assert _tira_dv("93682786953") == "936827869"
 
 
 def test_valida_tamanho_cpf_com_cpf_valido():
     """Se o CPF tiver 11 dígitos, deve retornar True"""
-    assert valida_tamanho_cpf("12345678909") == True
-    assert valida_tamanho_cpf("39813614668") == True
-    assert valida_tamanho_cpf("93682786953") == True
+    assert _valida_tamanho_cpf("12345678909") == True
+    assert _valida_tamanho_cpf("39813614668") == True
+    assert _valida_tamanho_cpf("93682786953") == True
 
 
 def test_valida_tamanho_cpf_com_cpf_invalido():
     """Se o CPF tiver menos de 11 dígitos, deve retornar False"""
-    assert valida_tamanho_cpf("1234567890") == False
-    assert valida_tamanho_cpf("3981361466") == False
-    assert valida_tamanho_cpf("9368278695") == False
-    assert valida_tamanho_cpf("936827869") == False
-    assert valida_tamanho_cpf("93682786") == False
-    assert valida_tamanho_cpf("9368278") == False
-    assert valida_tamanho_cpf("936827") == False
-    assert valida_tamanho_cpf("93682") == False
-    assert valida_tamanho_cpf("9368") == False
-    assert valida_tamanho_cpf("936") == False
-    assert valida_tamanho_cpf("93") == False
-    assert valida_tamanho_cpf("9") == False
-    assert valida_tamanho_cpf("") == False
+    assert _valida_tamanho_cpf("1234567890") == False
+    assert _valida_tamanho_cpf("3981361466") == False
+    assert _valida_tamanho_cpf("9368278695") == False
+    assert _valida_tamanho_cpf("936827869") == False
+    assert _valida_tamanho_cpf("93682786") == False
+    assert _valida_tamanho_cpf("9368278") == False
+    assert _valida_tamanho_cpf("936827") == False
+    assert _valida_tamanho_cpf("93682") == False
+    assert _valida_tamanho_cpf("9368") == False
+    assert _valida_tamanho_cpf("936") == False
+    assert _valida_tamanho_cpf("93") == False
+    assert _valida_tamanho_cpf("9") == False
+    assert _valida_tamanho_cpf("") == False
 
 
 def test_valida_cpf_com_cpf_valido():

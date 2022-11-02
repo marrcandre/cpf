@@ -35,6 +35,14 @@ jupyter = ["ipython (>=7.8.0)", "tokenize-rt (>=3.2.0)"]
 uvloop = ["uvloop (>=0.15.2)"]
 
 [[package]]
+name = "bottle"
+version = "0.12.23"
+description = "Fast and simple WSGI-framework for small web-applications."
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "click"
 version = "8.1.3"
 description = "Composable command line interface toolkit"
@@ -195,7 +203,7 @@ python-versions = ">=3.7"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "19902d653578ed0ee00b9db7a6c8eb35d53a2f1a908889f8604583908b8f2fd5"
+content-hash = "1c5006ff43f9f41793a4c65ef0f857e3e71403209eb7972fd0d9e0e7e9e5f1d0"
 
 [metadata.files]
 attrs = [
@@ -224,6 +232,10 @@ black = [
     {file = "black-22.10.0-cp39-cp39-win_amd64.whl", hash = "sha256:432247333090c8c5366e69627ccb363bc58514ae3e63f7fc75c54b1ea80fa7de"},
     {file = "black-22.10.0-py3-none-any.whl", hash = "sha256:c957b2b4ea88587b46cf49d1dc17681c1e672864fd7af32fc1e9664d572b3458"},
     {file = "black-22.10.0.tar.gz", hash = "sha256:f513588da599943e0cde4e32cc9879e825d58720d6557062d1098c5ad80080e1"},
+]
+bottle = [
+    {file = "bottle-0.12.23-py3-none-any.whl", hash = "sha256:9f1c363257c590bd34db5fad4693a7f06ff4217e9ad18337451de69c25137127"},
+    {file = "bottle-0.12.23.tar.gz", hash = "sha256:683de3aa399fb26e87b274dbcf70b1a651385d459131716387abdc3792e04167"},
 ]
 click = [
     {file = "click-8.1.3-py3-none-any.whl", hash = "sha256:bb4d8133cb15a609f44e8213d9b391b0809795062913b383c62be0ee95b1db48"},
