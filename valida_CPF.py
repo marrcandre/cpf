@@ -90,6 +90,12 @@ def cpf_valido(cpf):
     )
 
 
+def coloca_mascara_cpf(cpf):
+    """Coloca a máscara no CPF"""
+    cpf = _tira_mascara_cpf(cpf)
+    return f"{cpf[:3]}.{cpf[3:6]}.{cpf[6:9]}-{cpf[9:]}"
+
+
 def gera_cpf(formatado=False):
     """Gera um CPF válido"""
 
@@ -98,13 +104,23 @@ def gera_cpf(formatado=False):
     return cpf if not formatado else coloca_mascara_cpf(cpf)
 
 
+def gera_cpf_2():
+    """Gera um CPF válido"""
+    from random import random
+
+    cpf = str(random())[2:11]
+    return cpf
+
+
 def gera_lista_cpfs(qtd=10, formatado=False):
     """Gera uma lista de CPFs válidos"""
 
     return [gera_cpf(formatado) for i in range(qtd)]
 
 
-def coloca_mascara_cpf(cpf):
-    """Coloca a máscara no CPF"""
-    cpf = _tira_mascara_cpf(cpf)
-    return f"{cpf[:3]}.{cpf[3:6]}.{cpf[6:9]}-{cpf[9:]}"
+# teste de desempenho
+if __name__ == "__main__":
+    from timeit import timeit
+
+    print(timeit(gera_cpf(), number=10000))
+    print(timeit(gera_cpf_2(), number=10000))
